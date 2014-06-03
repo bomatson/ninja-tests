@@ -25,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/bomatson/ninja-tests/issues"
   },
-  "homepage": "https://github.com/bomatson/ninja-tests"
+  "homepage": "https://github.com/bomatson/ninja-tests",
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*"
+  }
 }
