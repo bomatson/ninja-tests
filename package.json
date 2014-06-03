@@ -1,0 +1,29 @@
+{
+  "name": "ninja-tests",
+  "version": "0.0.0",
+  "description": "testing the secrets of the javascript ninja",
+  "main": "chapter3.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bomatson/ninja-tests"
+  },
+  "keywords": [
+    "secrets",
+    "of",
+    "the",
+    "javascript",
+    "ninja"
+  ],
+  "author": "Bobby Matson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bomatson/ninja-tests/issues"
+  },
+  "homepage": "https://github.com/bomatson/ninja-tests"
+}
