@@ -1,8 +1,5 @@
 var expect = require('chai').expect
-var Chapter3 = {
-  spit: function(n) {
-    return n > 0 ? this.spit(n - 1) + 'y' : 'bobb'
-}}
+var Chapter3 = {};
 
 describe('Chapter 3', function() {
   describe('3.1 declaring functions', function() {
@@ -38,6 +35,12 @@ describe('Chapter 3', function() {
   })
 
   describe('3.2 anonymous functions', function() {
+    beforeEach( function() {
+      Chapter3 = {
+        spit: function(n) {
+          return n > 0 ? this.spit(n - 1) + 'y' : 'bobb'
+      }}
+    })
     it('can be used recursively', function() {
       expect(Chapter3.spit(3)).to.equal('bobbyyy')
     })
@@ -51,6 +54,14 @@ describe('Chapter 3', function() {
       var rogue = { spit: Chapter3.spit }
       Chapter3 = {}
       expect(rogue.spit(4)).to.equal('bobbyyyy')
+    })
+
+    it('can also use the arguments callee instead of the function name', function() {
+      Chapter3 = {
+        spit: function(n) {
+          return n > 0 ? arguments.callee(n-1) + 'y' : 'bobb'
+      }}
+      expect(Chapter3.spit(4)).to.equal('bobbyyyy')
     })
   })
 })
