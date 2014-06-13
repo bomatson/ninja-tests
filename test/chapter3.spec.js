@@ -93,5 +93,51 @@ describe('Chapter 3', function() {
     })
   })
   describe('3.4 context', function() {
+    beforeEach( function() {
+      Chapter3 = {
+        count: 1,
+        increment: function() {
+          this.count++;
+        },
+        context: function() {
+          return this;
+        },
+        incrementBy: function(a, b) {
+          return (this.count + a + b);
+        },
+        iterate: function(array, fn){
+          for(i = 0; i < array.length; i++) {
+            if (fn.call(array, array[i], i) === false) break;
+          }
+        }
+      }
+    })
+    it('can use this in a method on an object', function() {
+      Chapter3.increment();
+      expect(Chapter3.count).to.equal(2);
+    })
+    it('can use this in a standalone function', function() {
+      function alone() { this.lonelyFactor = 1; };
+      alone();
+      expect(lonelyFactor).to.equal(1);
+    })
+    //the context of a functionn depends on how it is invoked, not declared!
+    it('can use call to change the context of the function call', function() {
+      var bobby = {};
+      expect(Chapter3.context.call(bobby)).to.equal(bobby);
+    })
+    it('can use call to change the context of the function call with individual arguments', function() {
+      var bobby = { count: 2 };
+      expect(Chapter3.incrementBy.call(bobby, 3, 5)).to.equal(10);
+    })
+    it('can use apply to change the context of the function call with an array of arguments', function() {
+      var bobby = { count: 3 };
+      expect(Chapter3.incrementBy.apply(bobby, [3, 5])).to.equal(11);
+    })
+    it('can use call in a function that serves as a callback', function() {
+      var newArray = []
+      Chapter3.iterate([1,2,3], function(value, n){ newArray.push(value) })
+      expect(newArray).to.eql([1,2,3]);
+    })
   })
 })
