@@ -1,6 +1,5 @@
 var expect = require('chai').expect,
-    Chapter3 = require('../chapter3'),
-    test, rogue, reader;
+    Chapter3 = require('../chapter3');
 
 describe('Chapter 3', function() {
   describe('3.1 declaring functions', function() {
