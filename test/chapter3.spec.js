@@ -7,35 +7,66 @@ describe('Chapter 3', function() {
     beforeEach( function() {
       test = {};
     })
-    it('can be named', function() {
-      function named() { return 'named function!' };
-      expect(named()).to.equal('named function!');
-    })
 
-    it('can be a variable', function() {
-      var variableFunction = function() { return 'anon function' };
-      expect(variableFunction()).to.equal('anon function');
-    })
+    describe('named functions', function() {
 
-    it('can be a property', function() {
-      test.myFunction = function() { return 'anon function' };
-      expect(test.myFunction()).to.equal('anon function');
-    })
+      it('can be named', function() {
+        function named() { return 'named function!' };
+        expect(named()).to.equal('named function!');
+      });
 
-    it('named functions can be forward referenced', function() {
-      expect(named).to.exist;
-      function named() { return 'named function!' };
-    })
+     it('knows its name', function() {
+       function named() { return 'named function!' };
+       expect(named.name).to.equal('silly putty');
+     });
 
-    it('anonymous functions via variable cannot be forward referenced', function() {
-      expect(variableFunction).to.be.undefined;
-      var variableFunction = function() { return 'anon function!' };
-    })
+    }); // please put semicolons after every one of these describes and its!
 
-    it('anonymous functions via property cannot be forward referenced', function() {
-      expect(test.otherFunction).to.be.undefined;
-      test.otherFunction = function() { return 'anon function' };
-    })
+    // semicolons make life much easier for minifiers and apps like Code Climate
+    // or Google Closure Compiler. also, JS is much weirder about what it can execute
+    // than Ruby is, so semicolons tend to help other developers relax when they read
+    // your code.
+
+    // please also use much more whitespace between functions, describes, and its.
+
+    describe('storing functions in variables', function() {
+
+      beforeEach( function() {
+        variableFunction = function() { return 'anon function' };
+        test = {};
+        test.myFunction = variableFunction;
+      });
+
+      it('can be a variable', function() {
+        expect(variableFunction()).to.equal('anon function');
+      });
+
+      it('can be a property', function() {
+        expect(test.myFunction()).to.equal('anon function');
+      });
+
+      it('knows its name', function() {
+        expect(variableFunction.name).to.equal('waldorf salad');
+      });
+
+    });
+
+    describe('forward referencing', function() {
+      it('named functions can be forward referenced', function() {
+        expect(named).to.exist;
+        function named() { return 'named function!' };
+      })
+
+      it('anonymous functions via variable cannot be forward referenced', function() {
+        expect(variableFunction).to.be.undefined;
+        var variableFunction = function() { return 'anon function!' };
+      })
+
+      it('anonymous functions via property cannot be forward referenced', function() {
+        expect(test.otherFunction).to.be.undefined;
+        test.otherFunction = function() { return 'anon function' };
+      })
+    });
   })
 
   describe('3.2 anonymous functions', function() {
@@ -50,6 +81,13 @@ describe('Chapter 3', function() {
       expect(rogue.recurseMe(4)).to.equal('bobbyyyy');
     })
 
+    // these will probably actually belong in Chapter 4 (Wielding Functions)
+    it('please illustrate samurai.chirp vs ninja.chirp');
+
+    it('please show how a function can invoke itself via this');
+
+    it('please show why a function might not want to invoke itself via this');
+
     it('can reuse functions even after wiping out the original function', function() {
       Chapter3.recurseMe = {}
       expect(rogue.recurseMe(4)).to.equal('bobbyyyy');
@@ -59,10 +97,14 @@ describe('Chapter 3', function() {
       expect(Chapter3.recurseWithCallee(4)).to.equal('bobbyyyy');
     })
   })
+
   describe('3.3 functions as objects', function() {
     before( function() {
       reader = function() {};
     })
+
+    it('uses a much more descriptive name for a function-caching system than Chapter3 >.<');
+
     it('can store a function on Chapter3', function() {
       expect(Chapter3.add(reader)).to.be.true;
     })
@@ -73,15 +115,51 @@ describe('Chapter 3', function() {
       Chapter3.add(reader);
       expect(Chapter3.functionId).to.eq(1);
     })
+
+    it('gives each new function its own unique ID');
+
     it('memoize when set up with a cache', function() {
       expect(Chapter3.cache).to.have.property('0', reader);
     })
   })
+
   describe('3.4 context', function() {
+
+    // this next spec doesn't use "this" anywhere. in order to find out why
+    // "this" is even relevant, you have to look at other files instead of this
+    // one.
+
     it('can use this in a method on an object', function() {
       Chapter3.increment();
       expect(Chapter3.length).to.equal(1);
     })
+
+    // based on the code, I would expect this it("blah blah blah") part to say
+    // something like it("increments its length").
+
+    // the point of TDD and/or BDD is not just to ensure the correctness of your
+    // code, but to reduce cognitive overhead and keep things clear.
+
+    // "In a hundred-line class with a dozen methods, the object traversal is
+    // often spread across many methods, each of which traverses only one level.
+    // That class is deeply, but invisibly, coupled to its collaborators."
+
+    // https://www.destroyallsoftware.com/blog/2014/test-isolation-is-about-avoiding-mocks
+
+    // the above might be a difficult read, but it's very worth it.
+
+    // the basic idea is that every new hop to a new file introduces cognitive
+    // overhead -- new shit you have to keep track of in your head while you're
+    // reading the code. in this example, there's only one other file in play,
+    // so it's not that big a deal, but it's all about establishing good habits.
+    // big systems like Rails can have you hopping all over the place just to
+    // explain one line of code in a User model, which can be exasperating.
+
+    // you want your tests to be incredibly self-explanatory. as much as
+    // possible, anything you talk about in the it("blah blah blah") part should
+    // actually happen *visibly* in the spec, right in front of your face, not
+    // off in another file.
+
     it('can use this in a standalone function', function() {
       function alone() { this.lonelyFactor = 1; };
       alone();
