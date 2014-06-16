@@ -165,11 +165,21 @@ describe('Chapter 3', function() {
       alone();
       expect(lonelyFactor).to.equal(1);
     })
+
+    it('honestly I have no idea what any of these other specs do');
+
+    it('maybe pull stuff out of Chapter3 and back into the spec?');
+
+    it('alternatively, maybe Functions3.contextSupport.iterate instead of just Chapter3.iterate?');
+
+    it('also, maybe lib/functions3.js instead of Chapter3.js at the root of the project');
+
     //the context of a functionn depends on how it is invoked, not declared!
     it('can use call to change the context of the function call', function() {
       var bobby = {};
       expect(Chapter3.context.call(bobby)).to.equal(bobby);
     })
+
     it('can use call to change the context of the function call with individual arguments', function() {
       var bobby = { length: 2 };
       expect(Chapter3.incrementBy.call(bobby, 3, 5)).to.equal(10);
@@ -192,14 +202,38 @@ describe('Chapter 3', function() {
       expect(Chapter3[0]).to.eql(1);
     })
   })
+
+
   describe('3.5 function overloading', function() {
+
+    it('these guys here look like a great workout but not a great explanation');
+
+    it("imagine you're hungover and you haven't looked at this code in six months");
+
+    it('write these so that you could totally understand them hungover and after six months have passed');
+
     it('uses the arguments object for overloading', function() {
       expect(Chapter3.overloading('one argument')).to.eq('Only one argument');
     })
+
+    // it('responds to one argument with a number', function() {
+    //   expect(oneArgNumberTwoArgsString('hi')).to.eq(5);
+    // });
+
     it('supports function overloading with multiple args', function() {
       expect(Chapter3.overloading('so', 'many', 'args')).to.eq(' so many args');
     })
+
+    // it('responds to two arguments with a string', function() {
+    //   expect(oneArgNumberTwoArgsString('hi', 'world')).to.eq('five');
+    // });
+
+    // these examples are not perfect, but the idea is, can hungover future Bobby figure that out
+    // without needing a cup of coffee first?
+
     it('uses length on any function to supply parameter count from declaration', function() {
+      // function twoParams(first, second) { return true; };
+      // expect(twoParams.length).to.eq(2);
       expect(Chapter3.include.length).to.eq(2);
     })
     it('can change behavior based on callback length', function() {
