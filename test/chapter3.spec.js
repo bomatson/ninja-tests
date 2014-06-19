@@ -3,7 +3,13 @@ var expect = require('chai').expect,
     test, rogue, reader;
 
 describe('Chapter 3', function() {
-  describe('3.1 declaring functions', function() {
+  describe('3.1 what with the functional?', function() {
+    it('uses callbacks as function params', function() {
+      function gimmeCallback(ring) { return ring() }
+      expect(gimmeCallback(function() { return 'ring'})).to.eq('ring');
+    })
+  })
+  describe('3.2 declaring functions', function() {
     beforeEach( function() {
       test = {};
     })
@@ -36,6 +42,7 @@ describe('Chapter 3', function() {
       expect(test.otherFunction).to.be.undefined;
       test.otherFunction = function() { return 'anon function' };
     })
+
   })
 
   describe('3.2 anonymous functions', function() {
