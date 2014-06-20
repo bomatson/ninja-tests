@@ -18,6 +18,11 @@ describe('Chapter 3', function() {
       expect(named()).to.equal('named function!');
     })
 
+    it('when named, are given a name property', function() {
+      function named() { return 'named function!' };
+      expect(named.name).to.equal('named');
+    })
+
     it('can be a variable', function() {
       var variableFunction = function() { return 'anon function' };
       expect(variableFunction()).to.equal('anon function');
@@ -26,6 +31,11 @@ describe('Chapter 3', function() {
     it('can be a property', function() {
       test.myFunction = function() { return 'anon function' };
       expect(test.myFunction()).to.equal('anon function');
+    })
+
+    it('can be a property with a named function', function() {
+      test.myFunction = function roberto() { return 'anon function' };
+      expect(test.myFunction.name).to.equal('roberto');
     })
 
     it('named functions can be forward referenced', function() {
@@ -43,6 +53,30 @@ describe('Chapter 3', function() {
       test.otherFunction = function() { return 'anon function' };
     })
 
+    describe('scoping functions', function() {
+      it('local variable declaration extends to the end of the function', function() {
+        function outside() {
+          if (true) {
+            var insideConditional = 'declared';
+          }
+          return insideConditional
+        }
+        expect(outside()).to.equal('declared')
+      })
+
+      it('local named function declarations are forward referenced', function() {
+        function outside() {
+          return inner()
+          function inner() { return 'declared' }
+        }
+        expect(outside()).to.equal('declared')
+      })
+    })
+
+    describe('invoking functions', function() {
+      xit('', function() {
+      })
+    })
   })
 
   describe('3.2 anonymous functions', function() {
