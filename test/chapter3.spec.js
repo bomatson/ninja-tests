@@ -1,6 +1,6 @@
 var expect = require('chai').expect,
     Chapter3 = require('../chapter3'),
-    test, rogue, reader;
+    test, rogue, reader, Construction;
 
 describe('Chapter 3', function() {
   describe('3.1 what with the functional?', function() {
@@ -53,7 +53,7 @@ describe('Chapter 3', function() {
       test.otherFunction = function() { return 'anon function' };
     })
 
-    describe('scoping functions', function() {
+    context('scoping functions', function() {
       it('local variable declaration extends to the end of the function', function() {
         function outside() {
           if (true) {
@@ -73,8 +73,34 @@ describe('Chapter 3', function() {
       })
     })
 
-    describe('invoking functions', function() {
-      xit('', function() {
+    context('invoking functions', function() {
+      it('as a function', function() {
+        function invokeMe() { return 'invoked' }
+        expect(invokeMe()).to.equal('invoked')
+      })
+
+      it('as a method', function() {
+        function invokeMe() { return 'invoked' }
+        test = { invoke: invokeMe }
+        expect(test.invoke()).to.equal('invoked')
+      })
+      context('as a constructor', function() {
+        it('a new instance is created', function() {
+          function Construction() {
+            this.creep = function() {return 'creeping'}
+          }
+          var skyscraper = new Construction()
+          expect(skyscraper).to.be.instanceof(Construction)
+        })
+        it('context is the new object', function() {
+          function Construction() {
+            this.creep = function() {return this}
+          }
+          var skyscraper = new Construction()
+          expect(skyscraper.creep()).to.equal(skyscraper)
+        })
+      })
+      xcontext('with apply and call', function() {
       })
     })
   })
