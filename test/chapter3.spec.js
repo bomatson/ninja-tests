@@ -100,7 +100,29 @@ describe('Chapter 3', function() {
           expect(skyscraper.creep()).to.equal(skyscraper)
         })
       })
-      xcontext('with apply and call', function() {
+      context('with apply and call', function() {
+        it('uses the context with list of parameters', function() {
+          function addThemAll() {
+            var change = 0;
+            for (var n = 0; n < arguments.length; n++) {
+              change += arguments[n]
+            }
+            this.change = change;
+          }
+          addThemAll.call(test, 1,2,3)
+          expect(test.change).to.equal(6)
+        })
+        it('uses the context with an array of parameters', function() {
+          function addThemAll() {
+            var change = 0;
+            for (var n = 0; n < arguments.length; n++) {
+              change += arguments[n]
+            }
+            this.change = change;
+          }
+          addThemAll.apply(test, [1,2,3,4])
+          expect(test.change).to.equal(10)
+        })
       })
     })
   })
