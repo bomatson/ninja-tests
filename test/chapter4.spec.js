@@ -3,28 +3,32 @@ var expect = require('chai').expect,
     test, rogue, reader, Construction;
 
 describe('Chapter 4', function() {
-  describe('anonymous functions', function() {
+  describe('4.2 anonymous functions', function() {
     beforeEach( function() {
       rogue = { recurseMe: Chapter4.recurseMe };
     })
     it('can be used recursively', function() {
-      expect(Chapter4.recurseMe(3)).to.equal('bobbyyy');
+      expect(Chapter4.recurseMe(3)).to.equal('bobby-bob-bob-bob');
     })
 
     it('and reused for other objects', function() {
-      expect(rogue.recurseMe(4)).to.equal('bobbyyyy');
+      expect(rogue.recurseMe(4)).to.equal('bobby-bob-bob-bob-bob');
     })
 
     it('can reuse functions even after wiping out the original function', function() {
       Chapter4.recurseMe = {}
-      expect(rogue.recurseMe(4)).to.equal('bobbyyyy');
+      expect(rogue.recurseMe(4)).to.equal('bobby-bob-bob-bob-bob');
+    })
+
+    it('can use named functions for recursion', function() {
+      expect(Chapter4.recurseWithNamed(4)).to.equal('bobbyyyy');
     })
 
     it('can also use the arguments callee instead of the function name', function() {
       expect(Chapter4.recurseWithCallee(4)).to.equal('bobbyyyy');
     })
   })
-  describe('functions as objects', function() {
+  describe('4.3 functions as objects', function() {
     before( function() {
       reader = function() {};
     })
@@ -79,7 +83,7 @@ describe('Chapter 4', function() {
       expect(Chapter4[0]).to.eql(1);
     })
   })
-  describe('function overloading', function() {
+  describe('4.4 variable length lists and function overloading', function() {
     it('uses the arguments object for overloading', function() {
       expect(Chapter4.overloading('one argument')).to.eq('Only one argument');
     })
@@ -96,7 +100,7 @@ describe('Chapter 4', function() {
       expect(Chapter4.include('bobby', function(multi, args){})).to.eq('more than one callback arg');
     })
   })
-  describe('checking for functions', function() {
+  describe('4.5 checking for functions', function() {
     it('uses typeof to determine if the property is a function', function() {
       expect(typeof Chapter4.imaFunction == 'function').to.be.true
     })

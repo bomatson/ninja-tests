@@ -1,6 +1,10 @@
-var Chapter3 = {
+var Chapter4 = {
   recurseMe: function(n) {
-    return n > 0 ? this.recurseMe(n - 1) + 'y' : 'bobb'
+    return n > 0 ? this.recurseMe(n - 1) + '-bob' : 'bobby'
+  },
+  recurseWithNamed: function recurse(n) {
+    // recurse is only available within this function
+    return n > 0 ? recurse(n-1) + 'y' : 'bobb'
   },
   recurseWithCallee: function(n) {
     return n > 0 ? arguments.callee(n-1) + 'y' : 'bobb'
@@ -51,4 +55,4 @@ var Chapter3 = {
   },
   imaFunction: function() { }
 }
-module.exports = Chapter3;
+module.exports = Chapter4;
