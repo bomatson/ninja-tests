@@ -85,30 +85,52 @@ describe('Chapter 5', function() {
       //define my cake obj
       var cake = {
         ingredients: ['flour', 'sugar', 'candles']
-      }
+      };
 
       // another function wants to use my ingredients
       var mom = function() {
-        return this.ingredients
-      }
+        return this.ingredients;
+      };
       expect(mom()).to.be.undefined;
     });
 
     it('unless I use bind to give her access to the cake context', function() {
       var cake = {
         ingredients: ['flour', 'sugar', 'candles']
-      }
+      };
 
       var mom = function() {
-        return this.ingredients
-      }
+        return this.ingredients;
+      };
 
       var baker = mom.bind(cake);
       expect(baker()).to.eql(['flour', 'sugar', 'candles']);
     });
-
     // bind is especially useful when using functions as callbacks to event handlers
   })
+
   describe('Partially applying functions', function() {
-  })
-})
+    it('use bind to apply one parameter at a time', function() {
+      function add(a, b) {
+        return a + b;
+      };
+
+      // applying some of the arguments you know are required (in this case 'a')
+      var partial = add.bind(null, 1);
+
+      // invoke the add function with the final parameter when you have it
+      expect(partial(4)).to.eq(5);
+    });
+
+    it('can take any number of args', function() {
+      function add(a, b) {
+        return a + b;
+      };
+
+      var partial = add.bind(null, 1);
+
+      // they just never get used
+      expect(partial(4, 1, 5)).to.eq(5);
+    });
+  });
+});
