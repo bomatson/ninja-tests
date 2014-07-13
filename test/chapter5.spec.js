@@ -1,55 +1,59 @@
-var expect = require('chai').expect,
-    Chapter4 = require('../chapter4'),
-    outsideScope;
+var expect = require('chai').expect;
 
-describe('Chapter 4', function() {
-  describe('4.1 How Closures Work', function() {
+describe('Chapter 5', function() {
+  describe('Basic closures', function() {
+    var outsideScope;
+
     it('allow access to scoped variables at declaration', function() {
       function testClosure() {
         var innerVar = 'inner';
         function closure() {
-          return innerVar
-        }
+          return innerVar;
+        };
         outsideScope = closure;
       }
-      testClosure()
+      testClosure();
       expect(outsideScope()).to.eq('inner');
-    })
+    });
+
     it('grant access to parameters in closures', function() {
       function testClosure() {
         var innerVar = 'inner';
         function closureWithParam(myParam) {
-          return innerVar + myParam
-        }
+          return innerVar + myParam;
+        };
         outsideScope = closureWithParam;
       }
-      testClosure()
+      testClosure();
       expect(outsideScope(' param')).to.eq('inner param');
-    })
-    it('cannot forward reference the variable outside the scope of the closure', function() {
+    });
+
+    it('cannot forward reference variable outside the scope', function() {
       function testClosure() {
         function closureTooLate() {
-          return tooLate
-        }
+          return tooLate;
+        };
         outsideScope = closureTooLate;
       }
-      testClosure()
-      expect(outsideScope()).to.be.undefined
-      var tooLate = 'wait i am here!'
-    })
-    it('can be forward referenced before closure is called', function() {
+      testClosure();
+      expect(outsideScope()).to.be.undefined;
+      var tooLate = 'wait i am here!';
+    });
+
+    it('can be forward referenced before called', function() {
       function testClosure() {
-        function closureTooLate() {
-          return tooLate
+        function closureOnTime() {
+          return onTime;
         }
-        outsideScope = closureTooLate;
+        outsideScope = closureOnTime;
       }
-      var tooLate = 'wait i am here!'
-      testClosure()
+      var onTime = 'wait i am here!';
+      testClosure();
       expect(outsideScope()).to.eq('wait i am here!');
-    })
-  })
-  describe('4.2 Putting Closures to Work', function() {
+    });
+  });
+
+  describe('Closures with privates', function() {
     beforeEach( function() {
       function Closure() {
         //this is private
@@ -63,18 +67,48 @@ describe('Chapter 4', function() {
           return privateVars;
         }
       }
-      closure  = new Closure() //this is a constructor
+      closure  = new Closure(); //this is a constructor
       closure.increment();
-    })
-    it('has access to the accessor', function() {
-      expect(closure.count()).to.eq(1);
-    })
+    });
 
-    it('does not have access to the private vars', function() {
+    it('have access to exposed functions', function() {
+      expect(closure.count()).to.eq(1);
+    });
+
+    it('do not have access to its privates outside of the closure', function() {
       expect(closure.privateVars).to.be.undefined
-    })
+    });
+  });
+
+  describe('Baking with contexts', function() {
+    it('does not give mom the ingredients', function() {
+      //define my cake obj
+      var cake = {
+        ingredients: ['flour', 'sugar', 'candles']
+      }
+
+      // another function wants to use my ingredients
+      var mom = function() {
+        return this.ingredients
+      }
+      expect(mom()).to.be.undefined;
+    });
+
+    it('unless I use bind to give her access to the cake context', function() {
+      var cake = {
+        ingredients: ['flour', 'sugar', 'candles']
+      }
+
+      var mom = function() {
+        return this.ingredients
+      }
+
+      var baker = mom.bind(cake);
+      expect(baker()).to.eql(['flour', 'sugar', 'candles']);
+    });
+
+    // bind is especially useful when using functions as callbacks to event handlers
   })
-  describe('4.3 Binding Function Contexts', function() {
-    //wtf bind
+  describe('Partially applying functions', function() {
   })
 })
