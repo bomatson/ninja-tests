@@ -133,4 +133,23 @@ describe('Chapter 5', function() {
       expect(partial(4, 1, 5)).to.eq(5);
     });
   });
+
+  describe('Immediate functions', function() {
+    it('allow for added functionality to a function', function() {
+      functionality = {
+        add: function(){
+               return 'adding!';
+             }
+        };
+      (function(f) {
+        expect(f.add()).to.eq('adding!');
+      })(functionality);
+    });
+
+    it('are executed as they are defined', function() {
+      (function(f) {
+        expect(f).to.be.defined
+      })();
+    });
+  });
 });
