@@ -1,13 +1,14 @@
 var expect = require('chai').expect;
 
 describe('Chapter 6', function() {
+  var reference;
+
   describe('Instantiation', function() {
     context('with a constructor', function() {
-      var reference;
 
       beforeEach(function() {
         function Creation() { };
-        Creation.prototype.create = function() { return 'create' };
+        Creation.prototype.grow = function() { return 'growing' };
         reference = new Creation();
       });
 
@@ -16,73 +17,72 @@ describe('Chapter 6', function() {
       });
 
       it('attaches the prototype methods to the reference', function() {
-        expect(reference.create).to.not.be.undefined
+        expect(reference.grow).to.exist
       });
 
       it('allows prototype methods to be called', function() {
-        expect(reference.create()).to.eq('create');
+        expect(reference.grow()).to.eq('growing');
       });
     });
 
     context('without a constructor', function() {
-      var giles;
 
       beforeEach(function() {
-        function Drummer() { return 'drumming'; };
-        Drummer.prototype.openStroke = function() { return 'open stroke!' };
-        giles = Drummer();
+        function Creation() { return 'created'; };
+        Creation.prototype.grow = function() { return 'growing' };
+        reference = Creation();
       });
 
       it('returns the result of the original function call', function() {
-        expect(giles).to.eq('drumming');
+        expect(reference).to.eq('created');
       });
 
       it('never passes the prototype methods to the reference', function() {
-        expect(giles.openStroke).to.be.undefined
+        expect(reference.grow).to.be.undefined
       });
     });
 
     context('precedence', function() {
-      it('favors instance methdods over prototype methods', function() {
-        function Drummer() {
-          this.openStroke = function() {
+      it('favors instance methods over prototype methods', function() {
+        function Creation() {
+          this.grow = function() {
             return 'open stroke as instance method!';
           };
         };
-        Drummer.prototype.openStroke = function() { return 'open stroke!'; };
-        var bobby = new Drummer();
+        Creation.prototype.grow = function() { return 'open stroke!'; };
+        var reference = new Creation();
 
-        expect(bobby.openStroke()).to.eq('open stroke as instance method!');
+        expect(reference.grow()).to.eq('open stroke as instance method!');
       });
     });
 
     context('reference reconciliation', function() {
       it('live updates the object prototype once referenced', function() {
-        function Drummer() { };
-        var bobby = new Drummer();
+        function Creation() { };
+        var reference = new Creation();
 
-        Drummer.prototype.openStroke = function() { return 'open stroke!'; };
-        expect(bobby.openStroke()).to.eq('open stroke!');
+        Creation.prototype.grow = function() { return 'open stroke!'; };
+        expect(reference.grow()).to.eq('open stroke!');
       });
 
       it('cannot update the prototype if the object has already been referenced', function() {
-        function Drummer() { };
-        var bobby = new Drummer();
+        function Creation() { };
+        var reference = new Creation();
 
-        expect(bobby.doubleStroke).to.be.undefined
-        Drummer.prototype.doubleStroke = function() { return 'double stroke'; };
+        expect(reference.growFaster).to.be.undefined
+        Creation.prototype.growFaster = function() { return 'double stroke'; };
       });
 
       it('still resolves property references first', function() {
-        function Drummer() {
-          this.openStroke = function() {
+        function Creation() {
+          this.grow = function() {
             return 'open stroke as instance method!';
           };
         };
-        var bobby = new Drummer();
-        Drummer.prototype.openStroke = function() { return 'open stroke!'; };
+        var reference = new Creation();
+        Creation.prototype.grow = function() { return 'open stroke!'; };
 
-        expect(bobby.openStroke()).to.eq('open stroke as instance method!');
+        expect(reference.grow()).to.eq('open stroke as instance method!');
       });
     });
 
@@ -91,7 +91,7 @@ describe('Chapter 6', function() {
         function Creation() { };
         reference = new Creation();
 
-        expect(reference instanceof Creation).to.eq(true);
+        expect(reference instanceof Creation).to.be.true;
       });
 
       it('objects have a constructor property', function() {
@@ -106,7 +106,7 @@ describe('Chapter 6', function() {
         reference = new Creation();
         another_reference = new reference.constructor();
 
-        expect(another_reference instanceof Creation).to.eq(true);
+        expect(another_reference instanceof Creation).to.be.true;
       });
     });
   });
