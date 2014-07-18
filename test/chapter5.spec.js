@@ -136,8 +136,7 @@ describe('Chapter 5', function() {
 
   describe('Immediate functions', function() {
     it('execute immediately', function() {
-      //make this actually work, use a spy?
-      expect((function(){ })()).to.HaveBeenCalled;
+      expect((function(){ return 'I am executed!' })()).to.eq('I am executed!');
     });
 
     it('allow a param to be scoped to the closure', function() {
@@ -148,8 +147,8 @@ describe('Chapter 5', function() {
 
     it('create temporary scope with the params', function() {
       var outer;
-      (function(f) {
-        f = 'hi there!';
+      (function(param) {
+        param = 'hi there!';
       })(outer);
 
       expect(outer).to.be.undefined;
@@ -164,9 +163,6 @@ describe('Chapter 5', function() {
       (function(f) {
         expect(f.add()).to.eq('adding!');
       })(functionality);
-
-      // write a test for p 116, closures remember references to
-      // included variables, not just the value at the time they are created
     });
   });
 });

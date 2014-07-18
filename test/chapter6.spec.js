@@ -41,5 +41,19 @@ describe('Chapter 6', function() {
         expect(giles.openStroke).to.be.undefined
       });
     });
+
+    context('precedence', function() {
+      it('favors instance methdods over prototype methods', function() {
+        function Drummer() {
+          this.openStroke = function() {
+            return 'open stroke as instance method!';
+          };
+        };
+        Drummer.prototype.openStroke = function() { return 'open stroke!'; };
+        bobby = new Drummer();
+
+        expect(bobby.openStroke()).to.eq('open stroke as instance method!');
+      });
+    });
   });
 });
