@@ -109,5 +109,69 @@ describe('Chapter 6', function() {
         expect(another_reference instanceof Creation).to.be.true;
       });
     });
+
+    context('prototype chain', function() {
+
+      it('is preserved when the prototype is an instance of the parent', function() {
+        function Parent() { };
+        function Child() { };
+
+        Child.prototype = new Parent();
+        reference = new Child();
+
+        expect(reference).to.be.an.instanceOf(Parent);
+      });
+
+      it('is not preserved when the prototype tries to replicate each object method directly', function() {
+        function Parent() { };
+        Parent.prototype.mad = function() {}
+
+        function Child() { };
+
+        Child.prototype = { mad: Parent.prototype.mad }
+        reference = new Child();
+
+        expect(reference).to.not.be.an.instanceOf(Parent);
+      });
+
+      it('copies the parent methods for the child', function() {
+        function Parent() { };
+        Parent.prototype.mad = function() {}
+
+        function Child() { };
+
+        Child.prototype = new Parent();
+        reference = new Child();
+
+        expect(reference.mad).to.be.a('function');
+      });
+    });
+
+    context('the gotchyas', function() {
+
+      it('do not modify Object.prototype', function() {
+        Object.prototype.keys = function() {
+          var keys = [];
+          for (var p in this) keys.push(p);
+          return keys
+        }
+
+        reference = { a: 1, b: 3 };
+
+        //this will never be accurate, since keys is a key itself
+        //thus, the length is 3
+
+        expect(reference.keys().length).to.not.eq(2);
+      });
+
+      it('changing Number prototype cannot execute a literal', function() {
+        Number.prototype.subtract = function(num) {
+          return this - num;
+        }
+
+        //expect(5.subtract(3)).to.throw(SyntaxError);
+        // spec above wont catch the error, still throws it
+      });
+    });
   });
 });
