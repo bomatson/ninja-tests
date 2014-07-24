@@ -158,19 +158,17 @@ describe('Chapter 6', function() {
 
         reference = { a: 1, b: 3 };
 
-        //this will never be accurate, since keys is a key itself
-        //thus, the length is 3
+        //length will never be accurate, since keys is a key itself
+        //in our test, the length is 3 when we would expect 2
 
-        expect(reference.keys().length).to.not.eq(2);
+        expect(reference.keys().length).to.eq(3);
       });
 
-      it('changing Number prototype cannot execute a literal', function() {
-        Number.prototype.subtract = function(num) {
-          return this - num;
-        }
+      it('without a constructor, the reference is undefined', function() {
+        function Parent() { };
 
-        //expect(5.subtract(3)).to.throw(SyntaxError);
-        // spec above wont catch the error, still throws it
+        reference = Parent();
+        expect(reference).to.be.undefined
       });
     });
   });
