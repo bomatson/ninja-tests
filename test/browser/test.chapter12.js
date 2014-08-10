@@ -48,8 +48,8 @@ describe('Chapter 12', function() {
       });
 
       it('can access the action value with getAttributeNode', function() {
-        expect(form.getAttributeNode('id').nodeValue).to.eq('testForm');
-        expect(form.getAttributeNode('action').nodeValue).to.eq('/');
+        expect(form.getAttributeNode('id').value).to.eq('testForm');
+        expect(form.getAttributeNode('action').value).to.eq('/');
       });
     });
 
@@ -68,10 +68,9 @@ describe('Chapter 12', function() {
         expect(link.href).to.eq(document.URL + '#');
       });
 
-      it('preserves original string using nodeValue', function() {
-        expect(link.getAttributeNode('href').nodeValue).to.eq('#');
+      it('preserves original string using getAttributeNode', function() {
+        expect(link.getAttributeNode('href').value).to.eq('#');
       });
-
     });
 
     context('type attribution with inputs', function() {
@@ -92,7 +91,27 @@ describe('Chapter 12', function() {
         input.type = 'hidden';
         expect(input.type).to.eq('hidden');
       });
+    });
+  });
 
+  context('Style Objects', function() {
+    var link;
+
+    beforeEach( function() {
+      link = document.getElementById('testLink');
+    });
+
+    it('capture inline styles', function() {
+      expect(link.style.color).to.eq('rgb(0, 0, 0)');
+    });
+
+    it('do not capture inherited styles', function() {
+      expect(link.style.borderWidth).to.eq('');
+    });
+
+    it('override existing styles when modified directly', function() {
+      link.style.borderWidth = '4px';
+      expect(link.style.borderWidth).to.eq('4px');
     });
   });
 });

@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <title> Ninja Tests </title>
     <link rel="stylesheet" media="all" href="../node_modules/mocha/mocha.css">
+    <style>
+      a#testLink {
+        font-size: 1.2em;
+        border: 0 solid gold;
+      }
+    </style>
   </head>
   <body>
     <div id="mocha"></div>
@@ -19,7 +25,7 @@
       <input type='text' name='action'>
     </form>
 
-    <a href='#' id='testLink'></a>
+    <a href='#' id='testLink' style='color:#000;'></a>
     <script src="browser/test.chapter12.js"></script>
     <script>mocha.run();</script>
   </body>
