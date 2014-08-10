@@ -11,6 +11,15 @@
     <script src="../node_modules/chai/chai.js"></script>
 
     <script>mocha.setup('bdd')</script>
+
+    <div class='test-me'></div>
+
+    <form id='testForm' action='/'>
+      <input type='text' id='id'>
+      <input type='text' name='action'>
+    </form>
+
+    <a href='#' id='testLink'></a>
     <script src="browser/test.chapter12.js"></script>
     <script>mocha.run();</script>
   </body>
